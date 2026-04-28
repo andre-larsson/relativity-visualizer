@@ -343,6 +343,7 @@
 }
 
 .invariant-box,
+.boost-helper,
 .equation-box,
 .comparison-card,
 .matrix-block {
@@ -359,6 +360,17 @@
   color: var(--text-strong);
 }
 
+.boost-helper {
+  display: grid;
+  gap: 12px;
+}
+
+.boost-helper strong {
+  color: var(--text-strong);
+  font-size: 1.02rem;
+}
+
+.boost-helper code,
 .equation-box code,
 .comparison-card code {
   display: block;
@@ -370,6 +382,39 @@
   font-family: var(--font-mono);
   font-size: 0.92rem;
   overflow-x: auto;
+}
+
+.boost-helper-status {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--text-strong);
+}
+
+.boost-button {
+  appearance: none;
+  border: 1px solid rgba(29, 120, 114, 0.36);
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(29, 120, 114, 0.98), rgba(34, 53, 97, 0.98));
+  color: #f8f6f0;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+.boost-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(34, 53, 97, 0.16);
+}
+
+.boost-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  background: rgba(34, 53, 97, 0.18);
+  color: var(--text-soft);
 }
 
 .algebra-grid {

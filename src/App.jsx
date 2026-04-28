@@ -5,6 +5,7 @@ import {
   classifyInterval,
   formatNumber,
   getBoost,
+  getTimeAxisBoost,
   interval,
   lowerIndex,
   transformContravariant,
@@ -42,6 +43,41 @@ function MetricPill({ label, value, accent }) {
     <div className={`metric-pill metric-${accent}`}>
       <span>{label}</span>
       <strong>{value}</strong>
+    </div>
+  )
+}
+
+function TimeAxisBoostBox({ boostTarget, isAligned, onApply }) {
+  const buttonLabel = boostTarget.available
+    ? isAligned
+      ? 'Event already on t′ axis'
+      : 'Apply β = x / t'
+    : 'Requires timelike event'
+
+  return (
+    <div className="boost-helper">
+      <p className="section-kicker">Targeted boost</p>
+      <strong>Choose the frame where the event has no spatial component.</strong>
+      <p>{boostTarget.explanation}</p>
+      {boostTarget.available ? (
+        <>
+          <code>βalign = x / t = {formatNumber(boostTarget.beta)}</code>
+          <p className="boost-helper-status">
+            Target P&apos; = (
+            {formatNumber(boostTarget.transformed.t)}, {formatNumber(boostTarget.transformed.x)})
+          </p>
+        </>
+      ) : (
+        <code>x&apos; = 0 requires a timelike event with |x/t| &lt; 1</code>
+      )}
+      <button
+        className="boost-button"
+        type="button"
+        onClick={() => onApply(boostTarget.beta)}
+        disabled={!boostTarget.available || isAligned}
+      >
+        {buttonLabel}
+      </button>
     </div>
   )
 }
@@ -378,6 +414,7 @@ function App() {
   const boost = getBoost(beta)
   const point = { t: eventT, x: eventX }
   const pointPrime = transformContravariant(point, beta)
+  const timeAxisBoost = getTimeAxisBoost(point)
   const lowered = lowerIndex(point)
   const loweredPrime = transformCovariant(lowered, beta)
   const basis = basisVectors(beta)
@@ -385,6 +422,7 @@ function App() {
   const spaceLeg = vectorScale(basis.space, pointPrime.x)
   const sSquared = interval(point)
   const relation = classifyInterval(sSquared)
+  const isOnTimeAxis = timeAxisBoost.available && Math.abs(pointPrime.x) < 1e-6
 
   return (
     <main className="page-shell">
@@ -451,11 +489,11 @@ function App() {
             <SliderField
               label="Boost velocity β"
               value={beta}
-              min={-0.92}
-              max={0.92}
+              min={-0.98}
+              max={0.98}
               step={0.01}
               onChange={setBeta}
-              hint="Negative β tilts the primed axes the other way."
+              hint="Negative β tilts the primed axes the other way. Timelike events can be sent to t′ with β = x/t."
             />
             <SliderField
               label="Event time t"
@@ -476,6 +514,12 @@ function App() {
               hint="Change the separation while the metric stays diag(1, -1)."
             />
           </div>
+
+          <TimeAxisBoostBox
+            boostTarget={timeAxisBoost}
+            isAligned={isOnTimeAxis}
+            onApply={setBeta}
+          />
 
           <div className="invariant-box">
             <p className="section-kicker">Invariant classification</p>

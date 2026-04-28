@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap');
+
+:root {
+  font-family: 'Sora', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #23324d;
+  background:
+    linear-gradient(180deg, rgba(248, 246, 240, 0.96), rgba(239, 233, 220, 0.96)),
+    linear-gradient(90deg, rgba(34, 53, 97, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(34, 53, 97, 0.045) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --text-strong: #23324d;
+  --text-soft: #5d6c85;
+  --accent-navy: #223561;
+  --accent-teal: #1d7872;
+  --accent-rust: #d66b3a;
+  --accent-gold: #d1a84a;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+#root {
+  min-height: 100vh;
+}
